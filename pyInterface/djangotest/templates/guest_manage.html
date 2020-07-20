@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+      {% load bootstrap3 %}
+      {% bootstrap_css %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>Off Canvas Template for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="offcanvas.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="../../assets/js/ie-emulation-modes-warning.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+    <nav class="navbar navbar-fixed-top navbar-inverse">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">发布会管理系统</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="/event_manage/">发布会</a></li>
+            <li class="active"><a href="#">嘉宾</a></li>
+          </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">{{ user }}</a></li>
+                <li><a href="/logout/">退出</a></li>
+            </ul>
+        </div><!-- /.nav-collapse -->
+      </div><!-- /.container -->
+    </nav><!-- /.navbar -->
+
+    <div class="container">
+
+      <div class="row row-offcanvas row-offcanvas-right">
+
+          <div class="page-header" style="margin-top: 80px">
+              <div id="navbar" class="navbar-collapse collapse">
+                 <form class="navbar-form navbar-right" method="get" action="/search_phone/">
+                     <div class="form-group">
+                        <input type="text" class="form-control" placeholder="手机号码" name="phone"/>
+                     </div>
+                    <button type="submit" class="btn btn-success">搜索</button>
+                 </form>
+              </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6" style="width:800px;margin-top: 50px ">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>名称</th>
+                            <th>手机</th>
+                            <th>email</th>
+                            <th>签到</th>
+                            <th>发布会id</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for guestd in guest %}
+                        <tr>
+                            <td>{{ guestd.id }}</td>
+                            <td>{{ guestd.realname }}</td>
+                            <td>{{ guestd.phone }}</td>
+                            <td>{{ guestd.email }}</td>
+                            <td>{{ guestd.sign }}</td>
+                            <td>{{ guestd.event }}</td>
+                        </tr>
+                        {% endfor %}
+                    {{ hint }}
+                    </tbody>
+
+                </table>
+            </div><!--/.col-xs-6.col-lg-4-->
+
+      </div><!--/row-->
+
+
+{#      分页器#}
+      <div class="pagination">
+                <span class="step-links">
+                {% if guest.has_previous %}
+                    <a href="?phone = {{ phone }}&page = {{ guest.previous_page_number }}">上一页</a>
+                {% endif %}
+                    <span class = "current">
+                        Page {{ guest.number }} of {{ guest.paginator.num_pages }}.
+                    </span>
+                {% if guest.has_next %}
+                    {% if phone %}
+                        <a href="?phone={{ phone }}&page={{ guest.next_page_number }}">下一页</a>
+                    {% else %}
+                    <a href="?page={{guest.next_page_number }}">下一页</a>
+                    {% endif %}
+                {% endif %}
+
+                </span>
+            </div>
+      <hr>
+
+      <footer>
+        <p>&copy; Company 2014</p>
+      </footer>
+
+    </div><!--/.container-->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+    <script src="offcanvas.js"></script>
+
+  </body>
+
+</html>
